@@ -1,7 +1,8 @@
 import requests
 
-
 # Function to generate the secret code using RANDOM.ORG API
+
+
 def generate_secret_code():
     url = "https://www.random.org/integers/"
     params = {
@@ -13,12 +14,18 @@ def generate_secret_code():
         "format": "plain",
         "rnd": "new"
     }
-    response = requests.get(url, params=params)
-    if response.status_code == 200:
-        return [int(num) for num in response.text.strip().split("\n")]
-    else:
-        print("Error generating secret code.")
-        return None
+
+    # Generate numbers until they are unique
+    while True:
+        response = requests.get(url, params=params)
+        print(response.text)
+        if response.status_code == 200:
+            numbers = [int(num) for num in response.text.strip().split("\n")]
+            if len(set(numbers)) == len(numbers):
+                return numbers  # Unique numbers found
+        else:
+            print("Error generating secret code.")
+            return None
 
 
 print(generate_secret_code())

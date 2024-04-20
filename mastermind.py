@@ -76,6 +76,7 @@ def play_mastermind():
             "Feedback:", f"{correct_numbers} correct numbers and {correct_locations} correct location(s).")
 
         attempts += 1
+        print(f"Attempts remaining: {10 - attempts}")
 
     if attempts == 10:
         print("Sorry, you've run out of attempts. The secret code was:", secret_code)

@@ -17,9 +17,10 @@ def generate_secret_code():
     # Generate numbers until they are unique
     while True:
         response = requests.get(url, params=params)
-        print(response.text)
+        print(type(response.text))
         if response.status_code == 200:
             numbers = [int(num) for num in response.text.strip().split("\n")]
+            print(type(numbers))
             if len(set(numbers)) == len(numbers):
                 return numbers  # Unique numbers found
         else:
@@ -40,9 +41,4 @@ def check_guess(secret_code, guess):
     return correct_numbers_and_positions, correct_numbers_only
 
 
-secret_code = generate_secret_code()
-print("Secret Code: ", secret_code)
-
-guess = [1, 3, 4, 6]
-result = check_guess(secret_code, guess)
-print("Result:", result)
+generate_secret_code()

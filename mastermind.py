@@ -1,7 +1,8 @@
 import requests
 
-
 # Function to generate the secret code using RANDOM.ORG API
+
+
 def generate_secret_code():
     url = "https://www.random.org/integers/"
     params = {
@@ -13,80 +14,73 @@ def generate_secret_code():
         "format": "plain",
         "rnd": "new"
     }
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        return [int(num) for num in response.text.strip().split("\n")]
+    else:
+        print("Error generating secret code.")
+        return None
 
-    # Generate numbers until they are unique
-    while True:
-        response = requests.get(url, params=params)
-        print(response.text)
-        if response.status_code == 200:
-            numbers = [int(num) for num in response.text.strip().split("\n")]
-            # if len(set(numbers)) == len(numbers):
-            return numbers  # Unique numbers found
-        else:
-            print("Error generating secret code.")
-            return None
+# Function to check the player's guess against the secret code
 
+
+# def check_guess(secret_code, guess):
+#     correct_numbers = sum(1 for i in guess if i in secret_code)
+#     correct_locations = sum(1 for i, j in zip(secret_code, guess) if i == j)
+#     return correct_numbers, correct_locations
 
 def check_guess(secret_code, guess):
-    correct_numbers_and_positions = 0
-    correct_numbers_only = 0
-    used_indices = set()
+    correct_numbers = 0
+    correct_locations = 0
 
-    # Count correct numbers and positions
     for i in range(len(secret_code)):
         if guess[i] == secret_code[i]:
-            correct_numbers_and_positions += 1
-            used_indices.add(i)
+            correct_numbers += 1
+            correct_locations += 1
+        elif guess[i] in secret_code:
+            correct_numbers += 1
 
-    # Count correct numbers only
-    for i in range(len(secret_code)):
-        if guess[i] != secret_code[i] and guess[i] in secret_code and secret_code.index(guess[i]) not in used_indices:
-            correct_numbers_only += 1
-            used_indices.add(secret_code.index(guess[i]))
-
-    return correct_numbers_and_positions, correct_numbers_only
+    return correct_numbers, correct_locations
 
 
 def play_mastermind():
     secret_code = generate_secret_code()
     attempts = 0
-    print("secret code", secret_code)
+    print(secret_code)
 
     print("Welcome to Mastermind! Try to guess the secret code using numbers from 0 to 7.")
-    print("You have 10 attempts to guess the correct number combinations. Good luck!")
+    print("You have 10 attempts to guess the correct number combinations.")
 
     while attempts < 10:
-        print(f"\nAttempt # {attempts + 1}")
+        print(f"\nAttempt #{attempts + 1}")
 
+        # Get player's guess
         guess = []
         for i in range(4):
-            guess.append(int(input(f"Enter number {i+1}: ")))
+            guess.append(int(input(f"Enter number {i + 1}: ")))
 
-        correct_number_and_positions, correct_numbers_only = check_guess(
-            secret_code, guess)
+        if all(num not in secret_code for num in guess):
+            print("Feedback: all incorrect")
+            attempts += 1
+            continue
 
-        if correct_number_and_positions == 4:
-            print("Congratulations! You've guessed the secret code")
+        # Check the guess
+        correct_numbers, correct_locations = check_guess(secret_code, guess)
+
+        if correct_locations == 4:
+            print("Congratulations! You've guessed the secret code!")
             break
 
-        print("Your guess:", ' '.join(map(str, guess)))
+        # Provide feedback
+        print(
+            "Feedback:", f"{correct_numbers} correct numbers and {correct_locations} correct location(s).")
 
-        feedback = ""
-        if correct_number_and_positions == 0 and correct_numbers_only == 0:
-            feedback = "all incorrect"
-        else:
-            if correct_number_and_positions > 0:
-                feedback += f"{correct_number_and_positions} correct number(s) and position(s)"
-            if correct_numbers_only > 0:
-                if feedback:
-                    feedback += ", and "
-                feedback += f"{correct_numbers_only} correct number(s) only"
-
-        print("Feedback:", feedback)
         attempts += 1
 
     if attempts == 10:
-        print("\nSorry, you're out of attempts. The secret code was: ", secret_code)
+        print("Sorry, you've run out of attempts. The secret code was:", secret_code)
 
 
-play_mastermind()
+if __name__ == "__main__":
+    # Start the game
+    play_mastermind()

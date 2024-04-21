@@ -38,16 +38,35 @@ def get_valid_guess(guess_number):
                 f"Invalid input: {e}. Please enter a valid number from 0 to 7.")
 
 
+# def check_guess(secret_code, guess):
+#     correct_numbers = 0
+#     correct_locations = 0
+
+#     for i in range(len(secret_code)):
+#         if guess[i] == secret_code[i]:
+#             correct_numbers += 1
+#             correct_locations += 1
+#         elif guess[i] in secret_code:
+#             correct_numbers += 1
+
+#     return correct_numbers, correct_locations
+
 def check_guess(secret_code, guess):
     correct_numbers = 0
     correct_locations = 0
+    secret_code_counts = {}  # Track the counts of numbers in the secret code
+    guess_counts = {}  # Track the counts of numbers in the guess
 
     for i in range(len(secret_code)):
         if guess[i] == secret_code[i]:
-            correct_numbers += 1
             correct_locations += 1
-        elif guess[i] in secret_code:
-            correct_numbers += 1
+        secret_code_counts[secret_code[i]] = secret_code_counts.get(
+            secret_code[i], 0) + 1
+        guess_counts[guess[i]] = guess_counts.get(guess[i], 0) + 1
+
+    for num in guess_counts:
+        if num in secret_code_counts:
+            correct_numbers += min(secret_code_counts[num], guess_counts[num])
 
     return correct_numbers, correct_locations
 
@@ -69,8 +88,7 @@ def play_mastermind():
             guess.append(valid_guess)
 
         # Display the guesses
-        for i in range(4):
-            print(f"Enter number {i + 1}: {guess[i]}")
+        print("\nYour guess:", " ".join(map(str, guess)))
 
         if all(num not in secret_code for num in guess):
             print("Feedback: all incorrect")

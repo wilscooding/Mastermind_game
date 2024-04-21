@@ -24,10 +24,19 @@ def generate_secret_code():
 # Function to check the player's guess against the secret code
 
 
-# def check_guess(secret_code, guess):
-#     correct_numbers = sum(1 for i in guess if i in secret_code)
-#     correct_locations = sum(1 for i, j in zip(secret_code, guess) if i == j)
-#     return correct_numbers, correct_locations
+def get_valid_guess(guess_number):
+    while True:
+        guess = input(f"Enter a number {guess_number}: ")
+        try:
+            guess = int(guess)
+            if 0 <= guess <= 7:
+                return guess
+            else:
+                raise ValueError("Number out of range")
+        except ValueError as e:
+            print(
+                f"Invalid input: {e}. Please enter a valid number from 0 to 7.")
+
 
 def check_guess(secret_code, guess):
     correct_numbers = 0
@@ -54,10 +63,14 @@ def play_mastermind():
     while attempts < 10:
         print(f"\nAttempt #{attempts + 1}")
 
-        # Get player's guess
         guess = []
         for i in range(4):
-            guess.append(int(input(f"Enter number {i + 1}: ")))
+            valid_guess = get_valid_guess(i + 1)
+            guess.append(valid_guess)
+
+        # Display the guesses
+        for i in range(4):
+            print(f"Enter number {i + 1}: {guess[i]}")
 
         if all(num not in secret_code for num in guess):
             print("Feedback: all incorrect")

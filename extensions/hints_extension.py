@@ -1,21 +1,46 @@
 import random
 
+# Function to provide hints based on previous guesses and feedback
+
 
 def provide_hint(secret_code, previous_guesses, previous_feedback):
-    # Select a random number from the player's guess that is incorrect or in the wrong position
-    incorrect_numbers = [...]  # List of incorrect numbers from the player's guess
-    correct_numbers_in_wrong_position = [...]  # List of numbers correct but in the wrong position
-    available_numbers = incorrect_numbers + correct_numbers_in_wrong_position
+    incorrect_positions = set()  # Set to store incorrect positions
+    # Set to store correct numbers in wrong positions
+    wrong_numbers = set()
 
-    selected_number = random.choice(available_numbers)  # Randomly choose a number from the available pool
+    # Analyze previous feedback to identify numbers in wrong positions
+    for guess, feedback in zip(previous_guesses, previous_feedback):
+        if feedback != (4, 4):  # If the guess is not correct
+            for i, num in enumerate(guess):
+                # If the number is in the secret code but not in the correct position
+                if num in secret_code and num != secret_code[i]:
+                    incorrect_positions.add(i)
+                # If the number is correct but in the wrong position
+                elif num not in secret_code:
+                    wrong_numbers.add(num)
 
-    if selected_number not in correct_numbers_in_wrong_position:
-        # Indicate if the right number is higher or lower
-        if selected_number < max(secret_code):
-            hint = f"The number {selected_number} should be higher."
+
+    hints = []  # List to store hints
+
+    # Generate hints based on incorrect positions
+    for position in incorrect_positions:
+        hints.append(
+            f"Number at position {position + 1} is in wrong position.")
+
+    # Generate hints based on wrong numbers
+    for num in wrong_numbers:
+        # if num < min(secret_code):
+        #     hints.append(f"Number {num} should be higher.")
+        # else:
+        #     hints.append(f"Number {num} should be lower.")
+        if num >= max(wrong_numbers):
+            hints.append(f"Number {num} should be lower.")
         else:
-            hint = f"The number {selected_number} should be lower."
-    else:
-        hint = "Selected number is in the wrong position."
+            hints.append(f"Number {num} should be higher.")
 
-    return hint
+    # Randomly choose between incorrect positions and wrong numbers for the hint
+    if hints:
+        hint = random.choice(hints)
+        return [hint]
+    else:
+        return []

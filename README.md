@@ -56,7 +56,8 @@ The game will present you with the following instructions:
      - `play_mastermind()`: Orchestrate the game flow.
 
 4. **Crafting game mechanics**
-   The central goal was to craft code that seamlessly integrated to deliver a smooth and captivating gameplay experience. This journey commenced with a deep dive into the game's rules and mechanics, laying the groundwork for adopting a modular design paradigm. Fragmenting the game's functionalities into discrete modules—such as secret code generation, player guess management, and feedback provision—was aimed at bolstering maintainability, streamlining testing procedures, and paving the way for effortless future upgrades.
+
+   - The central goal was to craft code that seamlessly integrated to deliver a smooth and captivating gameplay experience. This journey commenced with a deep dive into the game's rules and mechanics, laying the groundwork for adopting a modular design paradigm. Fragmenting the game's functionalities into discrete modules—such as secret code generation, player guess management, and feedback provision—was aimed at bolstering maintainability, streamlining testing procedures, and paving the way for effortless future upgrades.
 
    Throughout the implementation phase, challenges were encountered, particularly in accurately interpreting player guesses and furnishing pertinent feedback. Confronted with these obstacles, a solution-oriented approach was adopted, employing exhaustive testing and debugging methodologies. By meticulously scrutinizing the codebase, utilizing strategic print statements, and conducting thorough data analysis, discrepancies were pinpointed and swiftly addressed. This iterative process empowered the refinement of the game's core logic, ensuring its robustness and seamless operation.
 

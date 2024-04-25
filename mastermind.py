@@ -97,7 +97,6 @@ def play_mastermind():
     while True:  # Main game loop
         secret_code = generate_secret_code()
         attempts = 0
-        print(secret_code)
 
         print("**************************Welcome to Mastermind!**************************")
         print("In this game, you need to guess the secret code using numbers from 0 to 7.")

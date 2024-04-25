@@ -1,7 +1,5 @@
 import random
 
-# Function to provide hints based on previous guesses and feedback
-
 
 def provide_hint(secret_code, previous_guesses, previous_feedback):
     """Provide hints based on the player's previous guesses and feedback.

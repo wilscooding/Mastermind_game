@@ -1,13 +1,17 @@
 import requests
 from extensions.hints_extension import provide_hint
 
-# Function to generate the secret code using RANDOM.ORG API
-
 
 def generate_secret_code():
+
+    """Generate a secret code using the RANDOM.ORG API.
+
+        Returns:
+            list[int]: The generated secret code.
+    """
     url = "https://www.random.org/integers/"
     params = {
-        "num": 4,  # Generate 4 numbers
+        "num": 4,
         "min": 0,
         "max": 7,
         "col": 1,
@@ -22,10 +26,17 @@ def generate_secret_code():
         print("Error generating secret code.")
         return None
 
+
 # Function to check the player's guess against the secret code
-
-
 def get_valid_guess(guess_number):
+    """Prompt the player to enter a valid guess.
+
+    Args:
+        guess_number (int): The number of the current guess.
+
+    Returns:
+        int: The player's valid guess.
+    """
     while True:
         guess = input(f"Enter a number {guess_number}: ")
         try:
@@ -40,6 +51,15 @@ def get_valid_guess(guess_number):
 
 
 def check_guess(secret_code, guess):
+    """Check the player's guess against the secret code.
+
+    Args:
+        secret_code (list[int]): The secret code.
+        guess (list[int]): The player's guess.
+
+    Returns:
+        tuple[int, int]: The number of correct numbers and their correct locations.
+    """
     correct_numbers = 0
     correct_locations = 0
     secret_code_counts = {}  # Track the counts of numbers in the secret code
@@ -60,8 +80,13 @@ def check_guess(secret_code, guess):
 
 
 def print_previous_guesses_and_feedback(previous_guesses, previous_feedback):
+    """Print the player's previous guesses and their corresponding feedback.
+
+    Args:
+        previous_guesses (list[list[int]]): The list of previous guesses.
+        previous_feedback (list[str | tuple[int, int]]): The list of previous feedback.
+    """
     for guess, feedback in zip(previous_guesses, previous_feedback):
-        # print(f"guess: {guess}, Feedback: {feedback}")
         if feedback != "all incorrect":
             print(f"guess: {guess}, Feedback: {feedback}")
         else:
@@ -69,6 +94,7 @@ def print_previous_guesses_and_feedback(previous_guesses, previous_feedback):
 
 
 def play_mastermind():
+    """Play the Mastermind game."""
     secret_code = generate_secret_code()
     attempts = 0
     print(secret_code)

@@ -15,7 +15,7 @@ To run the Mastermind game, follow these steps:
    - `hints_extension.py`: A file containing the implementation of the `provide_hint` function.
 4. Open a terminal or command prompt and navigate to the directory containing the downloaded files.
 5. Run the `mastermind.py` file using the following command:
-   "python mastermind.py"
+   `python mastermind.py`
 6. This will start the Mastermind game, and you can begin playing.
 
 ### How to Play the game
@@ -25,9 +25,10 @@ The game will present you with the following instructions:
 1. The secret code consists of a combination of 4 numbers from 0 to 7.
 2. You need to guess the secret code within 10 attempts.
 3. After each guess, you will receive feedback on the number of correct numbers and their correct locations.
-4. After your first attempt, you can request a hint by typing "yes" when prompted.
-5. After your second attempt, you can view the previous guesses and their feedback by typing "yes" when prompted.
-   The game will continue until you successfully guess the secret code or run out of attempts (10). If you run out of attempts, the game will reveal the secret code.
+4. After your first attempt, you can request a hint by typing "yes" when prompted(case sensitive).
+5. After your second attempt, you can view the previous guesses and their feedback by typing "yes" when prompted(case sensitive).
+6. The game will continue until you successfully guess the secret code or run out of attempts (10). If you run out of attempts, the game will reveal the secret code.
+7. After the end of the game you will have an option to play again. If "yes" is selected, the game will restart(case sensitive).
 
 ![Command Line Interface](images/commandlineUI.PNG)
 

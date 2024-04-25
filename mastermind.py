@@ -3,7 +3,6 @@ from extensions.hints_extension import provide_hint
 
 
 def generate_secret_code():
-
     """Generate a secret code using the RANDOM.ORG API.
 
         Returns:
@@ -95,68 +94,75 @@ def print_previous_guesses_and_feedback(previous_guesses, previous_feedback):
 
 def play_mastermind():
     """Play the Mastermind game."""
-    secret_code = generate_secret_code()
-    attempts = 0
-    print(secret_code)
+    while True:  # Main game loop
+        secret_code = generate_secret_code()
+        attempts = 0
+        print(secret_code)
 
-    print("**************************Welcome to Mastermind!**************************")
-    print("In this game, you need to guess the secret code using numbers from 0 to 7.")
-    print("The secret code consists of a combination of 4 numbers.")
-    print("You can request hints after your first attempt.")
-    print("Additionally, you can request to view previous feedback after the 2nd attempt.")
-
-    while attempts < 10:
-        print(f"\nAttempt #{attempts + 1}")
-
-        guess = []
-        for i in range(4):
-            valid_guess = get_valid_guess(i + 1)
-            guess.append(valid_guess)
-
-        # Display the guesses
-        print("\nYour guess:", " ".join(map(str, guess)))
-
-        if attempts >= 0:
-            # Ask if the player wants a hint after the first attempt
-            hint_request = input("Would you like a hint? (yes/no)\n")
-            if hint_request.lower() == "yes":
-                hint = provide_hint(
-                    secret_code, [guess], [(0, 0)])
-                print(f"Hint: {hint}\n")
-
-            if attempts >= 1:
-                view_previous = input(
-                    " Would you like to view previous guesses and their feedback? (yes/no)\n")
-                if view_previous.lower() == "yes":
-                    print_previous_guesses_and_feedback(
-                        previous_guesses, previous_feedback)
-
-        if all(num not in secret_code for num in guess):
-            print("Feedback: all incorrect")
-            attempts += 1
-            previous_guesses.append(guess)
-            previous_feedback.append("all incorrect")
-            continue
-
-        # Check the guess
-        correct_numbers, correct_locations = check_guess(secret_code, guess)
-
-        if correct_locations == 4:
-            print("Congratulations! You've guessed the secret code!")
-            break
-
-        # Provide feedback
+        print("**************************Welcome to Mastermind!**************************")
+        print("In this game, you need to guess the secret code using numbers from 0 to 7.")
+        print("The secret code consists of a combination of 4 numbers.")
+        print("You can request hints after your first attempt.")
         print(
-            "Feedback:", f"{correct_numbers} correct numbers and {correct_locations} correct location(s).")
+            "Additionally, you can request to view previous feedback after the 2nd attempt.")
 
-        attempts += 1
-        print(f"Attempts remaining: {10 - attempts}")
+        while attempts < 10:
+            print(f"\nAttempt #{attempts + 1}")
 
-        previous_guesses.append(guess)
-        previous_feedback.append((correct_numbers, correct_locations))
+            guess = []
+            for i in range(4):
+                valid_guess = get_valid_guess(i + 1)
+                guess.append(valid_guess)
 
-    if attempts == 10:
-        print("Sorry, you've run out of attempts. The secret code was:", secret_code)
+            # Display the guesses
+            print("\nYour guess:", " ".join(map(str, guess)))
+
+            if attempts >= 0:
+                # Ask if the player wants a hint after the first attempt
+                hint_request = input("Would you like a hint? (yes/no)\n")
+                if hint_request.lower() == "yes":
+                    hint = provide_hint(
+                        secret_code, [guess], [(0, 0)])
+                    print(f"Hint: {hint}\n")
+
+                if attempts >= 1:
+                    view_previous = input(
+                        " Would you like to view previous guesses and their feedback? (yes/no)\n")
+                    if view_previous.lower() == "yes":
+                        print_previous_guesses_and_feedback(
+                            previous_guesses, previous_feedback)
+
+            if all(num not in secret_code for num in guess):
+                print("Feedback: all incorrect")
+                attempts += 1
+                previous_guesses.append(guess)
+                previous_feedback.append("all incorrect")
+                continue
+
+            # Check the guess
+            correct_numbers, correct_locations = check_guess(
+                secret_code, guess)
+
+            if correct_locations == 4:
+                print("Congratulations! You've guessed the secret code!")
+                break
+
+            # Provide feedback
+            print(
+                "Feedback:", f"{correct_numbers} correct numbers and {correct_locations} correct location(s).")
+
+            attempts += 1
+            print(f"Attempts remaining: {10 - attempts}")
+
+            previous_guesses.append(guess)
+            previous_feedback.append((correct_numbers, correct_locations))
+
+        if attempts == 10:
+            print("Sorry, you've run out of attempts. The secret code was:", secret_code)
+
+        play_again = input("Would you like to play again? (yes/no)\n").lower()
+        if play_again != 'yes':
+            break  # Exit the main game loop if the player chooses not to play again
 
 
 previous_guesses = []

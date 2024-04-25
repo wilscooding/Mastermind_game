@@ -6,7 +6,7 @@ The Mastermind game is a classic code-breaking game where the player tries to gu
 
 To run the Mastermind game, follow these steps:
 
-1. Ensure you have Python installed on your system. This code was developed and tested using Python 3.9, but should work with other versions as well.
+1. Ensure you have Python installed on your system. This code was developed and tested using Python 3.9, but it should also work with newer versions.
 2. Ensure requests library is installed by running `pip install requests`
 3. Clone the repository or download the source code files:
    - `mastermind.py`: The main game file containing the logic for playing Mastermind.

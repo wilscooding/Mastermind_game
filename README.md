@@ -28,7 +28,7 @@ The game will present you with the following instructions:
 5.	After your second attempt, you can view the previous guesses and their feedback by typing "yes" when prompted.
 The game will continue until you successfully guess the secret code or run out of attempts (10). If you run out of attempts, the game will reveal the secret code.
 
-![Command Line Interface](image/commandlineUI.png)
+![Command Line Interface](images/commandlineUI.PNG)
 
 
 
